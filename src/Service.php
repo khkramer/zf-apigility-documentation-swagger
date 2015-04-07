@@ -36,6 +36,7 @@ class Service extends BaseService
         // routes and parameter mangling ([:foo] will become {foo}
         $routeBasePath = substr($service->route, 0, strpos($service->route, '['));
         $routeWithReplacements = str_replace(array('[', ']', '{/', '{:'), array('{', '}', '/{', '{'), $service->route);
+        $routeWithReplacements = preg_replace('#:([\w\d_-]+)#', '{$1}', $routeWithReplacements);
 
         // find all parameters in Swagger naming format
         preg_match_all('#{([\w\d_-]+)}#', $routeWithReplacements, $parameterMatches);
